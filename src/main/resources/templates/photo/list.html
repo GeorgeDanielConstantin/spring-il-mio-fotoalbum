@@ -18,7 +18,7 @@
     <hr>
 
     <div class="d-flex justify-content-between align-items-center my-3">
-        <a class="btn btn-primary" th:href="@{/photo/create}">Aggiungi foto</a>
+        <a class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')" th:href="@{/photo/create}">Aggiungi foto</a>
         <div>
             <form method="GET" th:action="@{/photo}">
                 <div class="input-group">
@@ -38,7 +38,7 @@
         <tr>
             <th>Titolo</th>
             <th>Descrizione</th>
-            <th>Visibilità</th>
+            <th sec:authorize="hasAuthority('ADMIN')">Visibilità</th>
             <th>Foto</th>
             <th></th>
         </tr>
@@ -47,14 +47,16 @@
         <tr th:each="photo : ${photosList}" th:object="${photo}">
             <td th:text="*{title}"></td>
             <td th:text="*{description}"></td>
-            <td th:text="*{visibility ? 'Sì' : 'No'}"></td>
+            <td sec:authorize="hasAuthority('ADMIN')" th:text="*{visibility ? 'Sì' : 'No'}"></td>
             <td><img alt="" height="100" src="" th:src="*{url}" width="100"/></td>
             <td class="d-flex align-items-center">
-                <a class="btn btn-primary me-1" th:href="@{|/photo/*{id}|}"><i class="fa-solid fa-camera-retro"></i></a>
-                <a class="btn btn-primary me-1" th:href="@{|/photo/edit/*{id}|}"><i
+                <a class="btn btn-primary me-1" sec:authorize="hasAuthority('ADMIN')" th:href="@{|/photo/*{id}|}"><i
+                        class="fa-solid fa-camera-retro"></i></a>
+                <a class="btn btn-primary me-1" sec:authorize="hasAuthority('ADMIN')"
+                   th:href="@{|/photo/edit/*{id}|}"><i
                         class="fa-solid fa-pen-to-square"></i></a>
                 <form method="post"
-                      th:action="@{|/photos/delete/*{id}|}">
+                      sec:authorize="hasAuthority('ADMIN')" th:action="@{|/photos/delete/*{id}|}">
                     <button class="btn btn-primary" type="submit"><i class="fa-solid fa-trash-can"></i></button>
                 </form>
             </td>

@@ -15,8 +15,8 @@
         <dl>
             <dt>Descrizione</dt>
             <dd th:text="*{description}"></dd>
-            <dt>Visibilità</dt>
-            <dd th:text="*{visibility ? 'Sì' : 'No'}"></dd>
+            <dt sec:authorize="hasAuthority('ADMIN')">Visibilità</dt>
+            <dd sec:authorize="hasAuthority('ADMIN')" th:text="*{visibility ? 'Sì' : 'No'}"></dd>
             <dt>Immagine</dt>
             <dd><img alt="" height="100" src="" th:src="*{url}" width="100"/></dd>
         </dl>

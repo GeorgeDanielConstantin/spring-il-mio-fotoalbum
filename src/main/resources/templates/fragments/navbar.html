@@ -22,6 +22,10 @@
                     <a class="nav-link" th:classappend="${current == 'photo' ? 'active' : ''}"
                        th:href="@{/photo}">Foto</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${current == 'categories' ? 'active' : ''}"
+                       th:href="@{/categories}">Categorie</a>
+                </li>
             </ul>
         </div>
     </div>
