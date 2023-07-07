@@ -24,7 +24,6 @@ public class Photo {
     @NotBlank
     private String url;
 
-    @NotBlank
     @Column(nullable = false)
     private boolean visibility;
 

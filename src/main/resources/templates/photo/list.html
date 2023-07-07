@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{/fragments/resources :: head(pageTitle='Lista delle foto')}">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="container">
+    <nav th:insert="~{/fragments/navbar :: navbar(current='photo')}"></nav>
+    <div class="alert alert-success alert-dismissible fade show"
+         th:classappend="${#strings.equalsIgnoreCase(message.type, 'SUCCESS')} ? 'alert-success' : 'alert-danger'"
+         th:if="${message != null}">
+        <div th:text="${message.message}"></div>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+    </div>
+    <h1>Foto</h1>
+    <hr>
+
+    <div class="d-flex justify-content-between align-items-center my-3">
+        <a class="btn btn-primary" th:href="@{/photo/create}">Aggiungi foto</a>
+        <div>
+            <form method="GET" th:action="@{/photo}">
+                <div class="input-group">
+                    <label>
+                        <input class="form-control" name="keyword" placeholder="Cerca una foto"
+                               th:value="${searchInput}" type="search">
+                    </label>
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Titolo</th>
+            <th>Descrizione</th>
+            <th>Visibilità</th>
+            <th>Foto</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="photo : ${photosList}" th:object="${photo}">
+            <td th:text="*{title}"></td>
+            <td th:text="*{description}"></td>
+            <td th:text="*{visibility ? 'Sì' : 'No'}"></td>
+            <td><img alt="" height="100" src="" th:src="*{url}" width="100"/></td>
+            <td class="d-flex align-items-center">
+                <a class="btn btn-primary me-1" th:href="@{|/photo/*{id}|}"><i class="fa-solid fa-camera-retro"></i></a>
+                <a class="btn btn-primary me-1" th:href="@{|/photo/edit/*{id}|}"><i
+                        class="fa-solid fa-pen-to-square"></i></a>
+                <form method="post"
+                      th:action="@{|/photos/delete/*{id}|}">
+                    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-trash-can"></i></button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="alert alert-info" th:if="${photosList.isEmpty()}">
+        <p>Nessuna foto presente</p>
+    </div>
+</div>
+
+</body>
+</html>

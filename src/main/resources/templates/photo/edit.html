@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{/fragments/resources :: head(pageTitle='Form')}">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body th:with="isEdit=${photo.id != null}">
+<div class="container">
+    <nav th:insert="~{/fragments/navbar :: navbar(current='photo')}"></nav>
+
+    <h1 th:text="${isEdit ? 'Modifica foto' : 'Nuova foto'}"></h1>
+    <hr>
+    <form
+            class="row"
+            id="photo-form"
+            method="post"
+            th:action="@{${isEdit ? '/photo/edit/'+photo.id : '/photo/create'}}"
+            th:object="${photo}"
+    >
+
+        <div class="col-6">
+            <label class="form-label" for="photo-title">Titolo</label>
+            <input class="form-control" id="photo-title" th:errorClass="is-invalid" th:field="*{title}"
+                   type="text">
+            <div class="form-text">La foto deve avere un titolo</div>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-6">
+            <label class="form-label" for="img">Immagine</label>
+            <input class="form-control" id="img" th:errorClass="is-invalid" th:field="*{url}"
+                   type="text">
+            <div class="form-text">Necessario aggiungere una foto</div>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('url')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('url')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-6">
+            <label class="form-label" for="photo-description">Descrizione</label>
+            <input class="form-control" id="photo-description" th:errorClass="is-invalid" th:field="*{description}"
+                   type="text">
+            <div class="form-text">La foto deve avere una descrizione</div>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-6">
+            <label class="form-check-label" for="photo-visibility">Visibilità</label>
+            <input class="form-check-input" id="photo-visibility" th:field="*{visibility}" type="checkbox">
+        </div>
+        <div class="col-6">
+            <h3>Categorie</h3>
+            <div class="form-check" th:each="category : ${categoryList}">
+                <label>
+                    <input class="form-check-input" th:field="*{categories}" th:id="|category_${category.id}|"
+                           th:value="${category.id}"
+                           type="checkbox">
+                </label>
+                <label class="form-check-label" th:for="|category_${category.id}|" th:text="${category.name}">
+                </label>
+            </div>
+            <div class="col-12 mt-3">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a class="btn btn-primary" th:href="@{/photo}">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
