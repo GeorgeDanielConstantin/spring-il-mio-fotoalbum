@@ -23,7 +23,8 @@
                        th:href="@{/photo}">Foto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${current == 'categories' ? 'active' : ''}"
+                    <a class="nav-link" sec:authorize="hasAuthority('ADMIN')"
+                       th:classappend="${current == 'categories' ? 'active' : ''}"
                        th:href="@{/categories}">Categorie</a>
                 </li>
             </ul>

@@ -33,6 +33,7 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
+                .requestMatchers("api/**").permitAll()
                 .requestMatchers("/categories").hasAuthority("ADMIN")
                 .requestMatchers("/photo/edit/**").hasAuthority("ADMIN")
                 .requestMatchers("/photo/create").hasAuthority("ADMIN")
