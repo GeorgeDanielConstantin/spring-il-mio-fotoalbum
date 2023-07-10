@@ -8,9 +8,6 @@ import org.lessons.springilmiofotoalbum.repository.CategoryRepository;
 import org.lessons.springilmiofotoalbum.repository.PhotoRepository;
 import org.lessons.springilmiofotoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Optional;
 
 
 @Controller
+@CrossOrigin
 @RequestMapping("/photo")
 public class PhotoController {
 
@@ -36,18 +35,16 @@ public class PhotoController {
     private CategoryRepository categoryRepository;
 
     @GetMapping
+    @CrossOrigin
     public String list(
             @RequestParam(name = "keyword", required = false) String searchString,
-            Model model,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-        Page<Photo> photos;
-        Pageable pageable = PageRequest.of(page, size);
+            Model model) {
+        List<Photo> photos;
 
         if (searchString == null || searchString.isBlank()) {
-            photos = photoRepository.findAll(pageable);
+            photos = photoRepository.findAll();
         } else {
-            photos = photoRepository.findByTitleContainingIgnoreCase(searchString, pageable);
+            photos = photoRepository.findByTitleContainingIgnoreCase(searchString);
         }
 
         model.addAttribute("photosList", photos);

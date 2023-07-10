@@ -3,10 +3,9 @@ package org.lessons.springilmiofotoalbum.service;
 import org.lessons.springilmiofotoalbum.model.Photo;
 import org.lessons.springilmiofotoalbum.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -16,11 +15,11 @@ public class PhotoService {
     @Autowired
     PhotoRepository photoRepository;
 
-    public Page<Photo> getAll(Optional<String> keywordOpt, Pageable pageable) {
+    public List<Photo> getAll(Optional<String> keywordOpt) {
         if (keywordOpt.isEmpty()) {
-            return photoRepository.findAll(pageable);
+            return photoRepository.findAll();
         } else {
-            return photoRepository.findByTitleContainingIgnoreCase(keywordOpt.get(), pageable);
+            return photoRepository.findByTitleContainingIgnoreCase(keywordOpt.get());
         }
     }
 

@@ -4,13 +4,11 @@ package org.lessons.springilmiofotoalbum.api;
 import org.lessons.springilmiofotoalbum.model.Photo;
 import org.lessons.springilmiofotoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,15 +19,14 @@ public class PhotoRestController {
     @Autowired
     PhotoService photoService;
 
+    @CrossOrigin
     @GetMapping
-    public Page<Photo> page(
-            @RequestParam Optional<String> keyword,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return photoService.getAll(keyword, pageable);
+    public List<Photo> page(
+            @RequestParam Optional<String> keyword) {
+        return photoService.getAll(keyword);
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
     public Photo get(@PathVariable Integer id) {
         try {
